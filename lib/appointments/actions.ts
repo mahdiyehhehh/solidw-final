@@ -78,7 +78,7 @@ export async function createAppointment(
     .from("services")
     .select("*")
     .eq("id", serviceId)
-    .maybeSingle();
+    .maybeSingle()as {data: any; error: any };
 
   if (serviceError || !service || service.business_id !== businessId || !service.is_active) {
     return { error: "That service is no longer available. Please choose another." };
@@ -93,7 +93,7 @@ export async function createAppointment(
     notes,
     appointment_date: appointmentDate,
     appointment_time: appointmentTime,
-  });
+} as any);
 
   if (error) {
     return { error: "Something went wrong submitting your booking. Please try again." };
