@@ -4,13 +4,11 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd" | "onAnimationIteration"> {
   /** Brightens the border to signal emphasis (e.g. the featured plan). */
   goldBorder?: boolean;
   /** Stagger delay in seconds, useful when rendering a grid of cards. */
-  delay?: number;
-}
-
+  delay?: number;}
 export function GlassCard({
   className,
   goldBorder = false,
