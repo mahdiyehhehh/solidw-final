@@ -12,7 +12,6 @@ export const fontDisplay = Fraunces({
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
 /**
