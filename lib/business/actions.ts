@@ -108,7 +108,7 @@ export async function createBusiness(
   const { error } = await supabase.from("businesses").insert({
     ...parsed,
     user_id: user.id,
-  // eslint-disable-next-line @typescript-eslint/no-explicint-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any);
 
   if (error) {
@@ -145,6 +145,7 @@ export async function updateBusiness(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (supabase as any)
     .from("businesses")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .update(update as any)
     .eq("user_id", user.id);
 
