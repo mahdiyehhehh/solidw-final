@@ -78,6 +78,7 @@ export async function createAppointment(
     .from("services")
     .select("*")
     .eq("id", serviceId)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .maybeSingle()as {data: any; error: any };
 
   if (serviceError || !service || service.business_id !== businessId || !service.is_active) {
@@ -93,6 +94,7 @@ export async function createAppointment(
     notes,
     appointment_date: appointmentDate,
     appointment_time: appointmentTime,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any);
 
   if (error) {
