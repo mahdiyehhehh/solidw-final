@@ -115,6 +115,7 @@ export async function updateService(
   const update: ServiceUpdate = parsed;
 
   const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (supabase as any)
     .from("services")
     .update(update)
@@ -153,6 +154,7 @@ export async function toggleServiceActive(
   const businessId = await requireOwnerBusinessId();
 
   const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (supabase as any)
     .from("services")
     .update({ is_active: nextIsActive })
