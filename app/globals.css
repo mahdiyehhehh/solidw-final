@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DESIGN TOKENS
+   Tailwind v4 reads these straight from CSS — there is no tailwind.config.
+   Every color, font and radius utility used across SolidW (bg-crimson-900,
+   text-gold-400, font-display, rounded-glass, ease-luxury...) is generated
+   from this block. Nothing here is a Tailwind default.
+   ========================================================================== */
+@theme {
+  /* Crimson — the brand's core surface color, deepest to lightest */
+  --color-crimson-950: #1e0206;
+  --color-crimson-900: #2b0509;
+  --color-crimson-850: #35080d;
+  --color-crimson-800: #470a12;
+  --color-crimson-700: #6b121c;
+  --color-crimson-600: #8c1b27;
+
+  /* Gold — used sparingly, for accents, borders and the primary CTA */
+  --color-gold-200: #f1e0b8;
+  --color-gold-300: #e8cd9a;
+  --color-gold-400: #d4af6a;
+  --color-gold-500: #be9650;
+
+  /* Ivory — text and neutral UI on the crimson canvas */
+  --color-ivory-50: #fbf8f2;
+  --color-ivory-100: #f3ede0;
+  --color-ivory-200: #e4dcc8;
+  --color-ivory-400: #b8ac94;
+
+  /* Typefaces — mapped to the CSS variables set by next/font in lib/fonts.ts */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "SFMono-Regular", Menlo, monospace;
+
+  /* Radius — a single, slightly-larger-than-default radius for glass surfaces */
+  --radius-glass: 1.25rem;
+
+  /* Motion — the one easing curve used for every deliberate animation */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-crimson-950 text-ivory-100 font-sans antialiased;
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  ::selection {
+    @apply bg-gold-400/30 text-ivory-50;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   COMPONENTS
+   Signature surface treatments shared by every glass panel and button.
+   ========================================================================== */
+@layer components {
+  /* The core glassmorphism surface used by GlassCard, dropdowns, modals... */
+  .glass-panel {
+    @apply relative overflow-hidden rounded-[var(--radius-glass)] border border-gold-400/15 bg-white/[0.04] backdrop-blur-xl;
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+      0 20px 60px -20px rgba(0, 0, 0, 0.65);
+  }
+
+  .glass-panel::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 opacity-40;
+    background: radial-gradient(
+      120% 120% at 0% 0%,
+      rgba(212, 175, 106, 0.1),
+      transparent 60%
+    );
+  }
+
+  /* The SolidW signature: a single clipped facet, like a cut gem corner.
+     Reserved for the primary call-to-action so it stays a signature and
+     not a decoration repeated everywhere. */
+  .facet-corner {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 14px) 0,
+      100% 14px,
+      100% 100%,
+      14px 100%,
+      0 calc(100% - 14px)
+    );
+  }
+
+  /* Ambient page background: layered crimson gradients, no flat fills */
+  .bg-mesh-crimson {
+    background:
+      radial-gradient(60% 50% at 15% 0%, rgba(140, 27, 39, 0.55), transparent 60%),
+      radial-gradient(50% 40% at 100% 20%, rgba(212, 175, 106, 0.08), transparent 60%),
+      radial-gradient(80% 60% at 50% 100%, rgba(53, 8, 13, 0.9), transparent 70%),
+      var(--color-crimson-950);
+  }
+
+  /* Fine film-grain overlay so flat gradients never look synthetic */
+  .bg-noise {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .bg-noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Gold-foil text treatment, reserved for one or two words per page */
+  .text-gold-foil {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      120deg,
+      var(--color-gold-200) 0%,
+      var(--color-gold-400) 40%,
+      var(--color-gold-200) 60%,
+      var(--color-gold-500) 100%
+    );
+  }
+}
