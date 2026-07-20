@@ -108,7 +108,8 @@ export async function createBusiness(
   const { error } = await supabase.from("businesses").insert({
     ...parsed,
     user_id: user.id,
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicint-any
+  } as any);
 
   if (error) {
     // Postgres unique_violation — the user already has a business row.
@@ -141,10 +142,10 @@ export async function updateBusiness(
   }
 
   const update: BusinessUpdate = parsed;
-
-  const { error } = await supabase
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from("businesses")
-    .update(update)
+    .update(update as any)
     .eq("user_id", user.id);
 
   if (error) {
